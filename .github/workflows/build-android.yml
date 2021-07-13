@@ -1,0 +1,20 @@
+name: react-native-android-build
+on: workflow_dispatch
+jobs:
+  build:
+    name: Install and publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-version: 3.x
+          expo-username: username
+          expo-password: pass
+          expo-cache: true
+      - run: yarn install
+      - run: expo build:android -t apk
+      - run: expo build:android -t app-bundle
