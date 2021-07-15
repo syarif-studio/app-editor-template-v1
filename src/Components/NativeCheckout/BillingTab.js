@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import BillingCountry from "./BillingCountry";
 import { BillingState } from "./BillingState";
 import { wooBillingData } from "../../Hook";
+import NoBillingCountry from "./NoBillingCountry";
 
 const components = {
   Input,
@@ -41,6 +42,7 @@ export const BillingTab = ({ fields, billingTitle }) => {
           }
           return <Field key={key} label={field.label} />;
         })}
+      {!fields.country.enable && <NoBillingCountry />}
     </Layout>
   );
 };

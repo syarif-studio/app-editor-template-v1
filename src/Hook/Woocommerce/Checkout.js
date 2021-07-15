@@ -82,6 +82,32 @@ export function useBillingCountry() {
   return { countries: options, isLoading };
 }
 
+export function useNoBillingCountry() {
+  const setCountry = useSetRecoilState(wooCountry);
+
+  const settings = useWooSettings();
+
+  React.useEffect(() => {
+    const allowedCountries = settings?.find(
+      (item) => item.id === "woocommerce_allowed_countries"
+    );
+
+    const specificCountries = settings?.find(
+      (item) => item.id === "woocommerce_specific_allowed_countries"
+    );
+
+    if (
+      allowedCountries?.value === "specific" &&
+      specificCountries?.value?.length === 1
+    ) {
+      const country = countries.find(
+        (item) => item.code === specificCountries.value[0]
+      );
+      setCountry({ states: country?.states, name: country?.name });
+    }
+  }, [settings, setCountry]);
+}
+
 export function usePlaceOrder() {
   const {
     cart: { items },
@@ -136,7 +162,6 @@ export function usePlaceOrder() {
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log({ error });
       });
   };
 
