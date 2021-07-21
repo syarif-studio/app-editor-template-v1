@@ -1,5 +1,6 @@
 import React from "react";
-import { Platform, Text as TextUi } from "react-native";
+import { Platform } from "react-native";
+import { Text as TextUi } from "@ui-kitten/components";
 import HTML from "react-native-render-html";
 import { usePostContent } from "../Hook";
 import AutoHeightWebView from "react-native-autoheight-webview";
