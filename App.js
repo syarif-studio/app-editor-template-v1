@@ -1,6 +1,9 @@
 import React from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { View } from "react-native";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import { View, Platform } from "react-native";
 import { config } from "./config";
 import Route from "./src/Route";
 import { RecoilRoot } from "recoil";
@@ -17,18 +20,15 @@ import Init from "./src/Init";
 const fetcher = (key) =>
   fetch(config.baseUrl + "wp-json/wprne/v1/" + key).then((r) => r.json());
 
-export default function App() {
-  const [fontsLoaded] = useFonts({
-    "Font-Regular": fontRegular,
-    "Font-Bold": fontBold,
-    "Font-SemiBold": fontSemibold,
-  });
-
+function AppProvider({ children }) {
+  const insets = useSafeAreaInsets();
   const { colorMode, colorTheme } = config;
+
   const theme =
     colorMode === "dark"
       ? { ...eva.dark, ...colorTheme }
       : { ...eva.light, ...colorTheme };
+
   const mapping =
     Platform.OS === "android"
       ? {
@@ -46,7 +46,21 @@ export default function App() {
         }
       : mappingFont;
 
-  if (!fontsLoaded) {
+  return (
+    <ApplicationProvider {...eva} theme={theme} customMapping={mapping}>
+      {children}
+    </ApplicationProvider>
+  );
+}
+
+export default function App() {
+  const [loaded] = useFonts({
+    "Font-Regular": fontRegular,
+    "Font-Bold": fontBold,
+    "Font-SemiBold": fontSemibold,
+  });
+
+  if (!loaded) {
     return null;
   }
 
@@ -62,11 +76,11 @@ export default function App() {
             fetcher,
           }}
         >
-          <ApplicationProvider {...eva} theme={theme} customMapping={mapping}>
-            <SafeAreaProvider>
+          <SafeAreaProvider>
+            <AppProvider>
               <Route />
-            </SafeAreaProvider>
-          </ApplicationProvider>
+            </AppProvider>
+          </SafeAreaProvider>
         </SWRConfig>
       </RecoilRoot>
     </View>
