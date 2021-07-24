@@ -16,6 +16,7 @@ import fontRegular from "./assets/fonts/font-regular.ttf";
 import fontBold from "./assets/fonts/font-bold.ttf";
 import fontSemibold from "./assets/fonts/font-semibold.ttf";
 import Init from "./src/Init";
+import AppLoading from "expo-app-loading";
 
 const fetcher = (key) =>
   fetch(config.baseUrl + "wp-json/wprne/v1/" + key).then((r) => r.json());
@@ -61,7 +62,7 @@ export default function App() {
   });
 
   if (!loaded) {
-    return null;
+    return <AppLoading />;
   }
 
   return (

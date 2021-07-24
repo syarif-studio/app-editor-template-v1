@@ -1,7 +1,6 @@
 import React from "react";
 import { Button as ButtonUi } from "@ui-kitten/components";
 import { Icon } from "react-native-elements";
-import { Text, View } from "react-native";
 import { useAction, useCustomProps } from "../Hook";
 
 export const Button = ({ onPressAction, title, navigateTo, ...props }) => {
@@ -35,23 +34,26 @@ export const Button = ({ onPressAction, title, navigateTo, ...props }) => {
       style={restStyle}
       onPress={handleOnPress}
       disabled={disabled}
+      {...(icon?.name
+        ? {
+            // eslint-disable-next-line react/display-name
+            accessoryLeft: () => (
+              <Icon
+                containerStyle={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginHorizontal: 4,
+                }}
+                name={icon.name}
+                type={icon.provider}
+                size={icon.size || 24}
+                color={icon.color || "#FFF"}
+              />
+            ),
+          }
+        : null)}
     >
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
-        {icon?.name && (
-          <Icon
-            containerStyle={{
-              justifyContent: "center",
-              alignItems: "center",
-              marginHorizontal: 5,
-            }}
-            name={icon.name}
-            type={icon.provider}
-            size={icon.size || 24}
-            color={icon.color || "#FFF"}
-          />
-        )}
-        <Text style={{ fontSize, color }}>{title}</Text>
-      </View>
+      {title}
     </ButtonUi>
   );
 };

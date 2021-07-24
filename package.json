@@ -19,6 +19,7 @@
     "@ui-kitten/components": "^5.1.0",
     "crypto-js": "^3.1.8",
     "expo": "^40.0.0",
+    "expo-app-loading": "^1.1.2",
     "expo-application": "~2.4.1",
     "expo-constants": "~9.3.3",
     "expo-device": "~2.4.0",
