@@ -1,31 +1,60 @@
 import React from "react";
-import { ScrollView, TouchableWithoutFeedback } from "react-native";
+import { View, ScrollView, TouchableOpacity } from "react-native";
 import { Layout } from "@ui-kitten/components";
-import { useAction, usePostContent } from "../Hook";
+import { useItem, usePostContent } from "../Hook";
+import { useNavigation } from "@react-navigation/native";
 
-const ContainerView = ({ children, onPressAction, navigateTo, ...props }) => {
-  const handleAction = useAction({ navigateTo });
-
+const TouchableContainer = ({ style, navigateTo, children, ...restProps }) => {
+  const navigation = useNavigation();
+  const item = useItem();
   const handleOnPress = () => {
-    if (Array.isArray(onPressAction) && onPressAction.length) {
-      onPressAction.forEach((action) => {
-        handleAction(action);
-      });
+    if (navigateTo) {
+      if (item) {
+        navigation.push(navigateTo, { item });
+      } else {
+        navigation.push(navigateTo);
+      }
     }
   };
 
+  return (
+    <TouchableOpacity onPress={handleOnPress}>
+      <View style={style} {...restProps}>
+        {children}
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+export const Container = ({ children, onPressAction, ...props }) => {
+  const dynamicBackgroundColor = usePostContent(
+    props.style?.dynamicBackgroundColor
+  );
+
+  const { style, ...restProps } = props;
+  const custStyle = { ...style };
+  if (dynamicBackgroundColor) {
+    custStyle.backgroundColor = dynamicBackgroundColor;
+    delete custStyle.dynamicBackgroundColor;
+  }
+
   if (Array.isArray(onPressAction) && onPressAction.length) {
     return (
-      <TouchableWithoutFeedback onPress={handleOnPress}>
-        <Layout {...props}>{children}</Layout>
-      </TouchableWithoutFeedback>
+      <TouchableContainer
+        style={custStyle}
+        onPressAction={onPressAction}
+        {...restProps}
+      >
+        {children}
+      </TouchableContainer>
     );
   }
 
-  const isHorizontal = props.style?.flexDirection === "row";
+  const isHorizontal = style?.flexDirection === "row";
+
   if (props.scrollable) {
     return (
-      <Layout {...props}>
+      <Layout style={custStyle} {...restProps}>
         <ScrollView
           horizontal={isHorizontal}
           contentContainerStyle={{ flexGrow: 1 }}
@@ -36,25 +65,9 @@ const ContainerView = ({ children, onPressAction, navigateTo, ...props }) => {
     );
   }
 
-  return <Layout {...props}>{children}</Layout>;
-};
-
-const ContainerDynamicBackground = ({ style, ...props }) => {
-  const { dynamicBackgroundColor, ...custStyle } = style;
-  const backgroundColor = usePostContent(dynamicBackgroundColor);
-
-  if (backgroundColor) {
-    custStyle.backgroundColor = backgroundColor;
-  }
-
-  return <ContainerView {...props} style={custStyle} />;
-};
-
-export const Container = (props) => {
-  const dynamicBackgroundColor = props.style.dynamicBackgroundColor;
-  if (dynamicBackgroundColor && dynamicBackgroundColor !== "disable") {
-    return <ContainerDynamicBackground {...props} />;
-  }
-
-  return <ContainerView {...props} />;
+  return (
+    <Layout style={custStyle} {...restProps}>
+      {children}
+    </Layout>
+  );
 };

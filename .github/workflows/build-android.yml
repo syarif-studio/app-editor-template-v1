@@ -11,7 +11,7 @@ jobs:
           node-version: 12.x
       - uses: expo/expo-github-action@v5
         with:
-          expo-version: 3.x
+          expo-version: 4.x
           expo-username: username
           expo-password: pass
           expo-cache: true
