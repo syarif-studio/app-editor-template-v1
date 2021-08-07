@@ -14,7 +14,7 @@ async function fetchData(json) {
 
 function useGetOrderData() {
   const { getItem } = useAsyncStorage("userOrders");
-  const [orderIds, setOrderIds] = React.useState([]);
+  const [orderIds, setOrderIds] = React.useState();
   const { data: orders, isValidating } = useSWR(
     orderIds?.length
       ? JSON.stringify({
@@ -22,8 +22,7 @@ function useGetOrderData() {
           include: orderIds.join(),
         })
       : null,
-    fetchData,
-    { revalidateOnFocus: true }
+    fetchData
   );
 
   const { data: products } = useSWR(() => {
@@ -53,8 +52,15 @@ function useGetOrderData() {
         setOrderIds(items || []);
       }
       getOrders();
-    }, [getItem])
+    }, []) //get item need a memo
   );
+
+  if (Array.isArray(orderIds) && !orderIds.length) {
+    return {
+      data: [],
+      isLoading: false,
+    };
+  }
 
   const items = orders?.map((order) => {
     const line_items = order?.line_items?.map((line_item) => {

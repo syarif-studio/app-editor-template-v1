@@ -9,12 +9,89 @@ import {
   useGetProductData,
   useGetPostData,
 } from "../Hook";
+import {
+  Placeholder,
+  PlaceholderMedia,
+  PlaceholderLine,
+  Fade,
+} from "rn-placeholder";
+import { Container, Image } from "../Components";
+
+const buildPlaceholder = (children) => {
+  if (!children) return null;
+  return React.Children.map(children, (element) => {
+    let { children, style } = element.props;
+    if (
+      element.type.name === "Container" &&
+      style.flexDirection === "row" &&
+      Array.isArray(children) &&
+      children.length > 1 &&
+      children[0].type !== Image &&
+      children[0].type !== Container
+    ) {
+      children = children[0];
+    }
+
+    const child = buildPlaceholder(children);
+
+    let component = PlaceholderLine;
+    if (element.type === Image) component = PlaceholderMedia;
+    if (element.type === Container) component = View;
+
+    style = element.type === Container ? style : { width: "80%", ...style };
+    return React.createElement(component, { style }, child);
+  });
+};
+
+function PostPlaceholder({ children, ...props }) {
+  const Content = buildPlaceholder(children);
+  const { numColumns, ...horizontalProps } = props;
+  const { showsHorizontalScrollIndicator, ...verticalProps } = props;
+  const isHorizontal = props?.horizontal;
+  const flatListProps = isHorizontal ? horizontalProps : verticalProps;
+
+  return (
+    <FlatList
+      data={["0", "1"]}
+      keyExtractor={(item) => item}
+      {...(numColumns > 1 &&
+        !isHorizontal && {
+          columnWrapperStyle: { flex: 1, justifyContent: "space-between" },
+        })}
+      {...flatListProps}
+      renderItem={() => <Placeholder Animation={Fade}>{Content}</Placeholder>}
+    />
+  );
+}
+
+const FlatlistItem = ({ item, numColumns, horizontal, children }) => {
+  const width = "100%";
+  if (numColumns > 1 && !horizontal) {
+    return (
+      <View style={{ flex: 0.5, marginHorizontal: 8 }}>
+        <ItemProvider value={item}>
+          {React.Children.map(children, (element) =>
+            React.cloneElement(element, {
+              style: { ...element.props.style, width },
+            })
+          )}
+        </ItemProvider>
+      </View>
+    );
+  }
+
+  return <ItemProvider value={item}>{children}</ItemProvider>;
+};
 
 export const FlatListComp = ({ data, children, ...props }) => {
   const { numColumns, ...horizontalProps } = props;
   const { showsHorizontalScrollIndicator, ...verticalProps } = props;
   const isHorizontal = props?.horizontal;
   const flatListProps = isHorizontal ? horizontalProps : verticalProps;
+
+  if (!data) {
+    return <PostPlaceholder {...props}>{children}</PostPlaceholder>;
+  }
 
   return (
     !!data?.length &&
@@ -28,7 +105,9 @@ export const FlatListComp = ({ data, children, ...props }) => {
           })}
         {...flatListProps}
         renderItem={({ item }) => (
-          <ItemProvider value={item}>{children}</ItemProvider>
+          <FlatlistItem item={item} {...props}>
+            {children}
+          </FlatlistItem>
         )}
       />
     )
