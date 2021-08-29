@@ -43,24 +43,52 @@ const buildPlaceholder = (children) => {
   });
 };
 
+const halfColumnStyle = { flex: 0.5, marginHorizontal: 8 };
+
 function PostPlaceholder({ children, ...props }) {
-  const Content = buildPlaceholder(children);
-  const { numColumns, ...horizontalProps } = props;
-  const { showsHorizontalScrollIndicator, ...verticalProps } = props;
+  const content = buildPlaceholder(children);
+  const { numColumns } = props;
   const isHorizontal = props?.horizontal;
-  const flatListProps = isHorizontal ? horizontalProps : verticalProps;
+
+  const flexDirection = isHorizontal ? "row" : "column";
+  if (numColumns > 1 && !isHorizontal) {
+    return (
+      <View style={{ flexDirection }}>
+        <View style={{ flexDirection: "row", width: "100%" }}>
+          <View style={halfColumnStyle}>
+            <Placeholder Animation={Fade}>{content}</Placeholder>
+          </View>
+          <View style={halfColumnStyle}>
+            <Placeholder Animation={Fade}>{content}</Placeholder>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", width: "100%" }}>
+          <View style={halfColumnStyle}>
+            <Placeholder Animation={Fade}>{content}</Placeholder>
+          </View>
+          <View style={halfColumnStyle}>
+            <Placeholder Animation={Fade}>{content}</Placeholder>
+          </View>
+        </View>
+      </View>
+    );
+  }
 
   return (
-    <FlatList
-      data={["0", "1"]}
-      keyExtractor={(item) => item}
-      {...(numColumns > 1 &&
-        !isHorizontal && {
-          columnWrapperStyle: { flex: 1, justifyContent: "space-between" },
-        })}
-      {...flatListProps}
-      renderItem={() => <Placeholder Animation={Fade}>{Content}</Placeholder>}
-    />
+    <View style={{ flexDirection }}>
+      <Placeholder Animation={Fade} style={{ width: "auto" }}>
+        {content}
+      </Placeholder>
+      <Placeholder Animation={Fade} style={{ width: "auto" }}>
+        {content}
+      </Placeholder>
+      <Placeholder Animation={Fade} style={{ width: "auto" }}>
+        {content}
+      </Placeholder>
+      <Placeholder Animation={Fade} style={{ width: "auto" }}>
+        {content}
+      </Placeholder>
+    </View>
   );
 }
 

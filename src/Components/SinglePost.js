@@ -1,11 +1,6 @@
-import React from "react"
-import { SinglePostRoot } from "../Hook"
-import { View } from "react-native"
+import React from "react";
+import { SinglePostRoot } from "../Hook";
 
-export const SinglePost = ({ style, children }) => {
-  return (
-    <View style={style}>
-      <SinglePostRoot>{children}</SinglePostRoot>
-    </View>
-  )
-}
+export const SinglePost = ({ children }) => {
+  return <SinglePostRoot>{children}</SinglePostRoot>;
+};
