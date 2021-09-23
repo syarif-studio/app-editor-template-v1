@@ -1,3 +1,27 @@
 {
-  "expo": {}
+  "expo": {
+    "name": "app editor template",
+    "slug": "app-editor-template",
+    "platforms": ["ios", "android"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "bundleIdentifier": "com.syarifstudio.appeditortemplate",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.syarifstudio.appeditortemplate",
+      "versionCode": 1
+    }
+  }
 }

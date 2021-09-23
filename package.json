@@ -18,12 +18,11 @@
     "@react-navigation/stack": "^5.9.0",
     "@ui-kitten/components": "^5.1.0",
     "crypto-js": "^3.1.8",
-    "expo": "^41.0.1",
+    "expo": "^42.0.3",
     "expo-app-loading": "^1.1.2",
     "expo-application": "~2.4.1",
     "expo-constants": "~9.3.3",
     "expo-device": "~2.4.0",
-    "expo-font": "^9.2.1",
     "expo-notifications": "^0.12.3",
     "expo-splash-screen": "~0.11.2",
     "expo-updates": "~0.4.1",
@@ -31,8 +30,7 @@
     "lodash.debounce": "^4.0.8",
     "oauth-1.0a": "^2.2.6",
     "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
+    "react-native": "0.63.4",
     "react-native-autoheight-webview": "^1.5.4",
     "react-native-elements": "^2.0.0",
     "react-native-gesture-handler": "~1.10.2",
@@ -47,7 +45,8 @@
     "recoil": "^0.3.1",
     "rn-placeholder": "^3.0.3",
     "swr": "^0.3.2",
-    "wpapi": "^1.2.1"
+    "wpapi": "^1.2.1",
+    "expo-font": "~9.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
