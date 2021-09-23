@@ -10,7 +10,9 @@ export default function Init() {
     syncWithAsyncStorage();
   }, []);
 
-  return Platform.OS === "android" ? <PushNotif /> : null;
+  return Platform.OS === "android" && config.enablePushNotif ? (
+    <PushNotif />
+  ) : null;
 }
 
 function PushNotif() {

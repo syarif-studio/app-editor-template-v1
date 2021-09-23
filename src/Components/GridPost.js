@@ -15,6 +15,7 @@ import {
   PlaceholderLine,
   Fade,
 } from "rn-placeholder";
+import { getSeparatedStyle } from "../Utility";
 import { Container, Image } from "../Components";
 
 const buildPlaceholder = (children) => {
@@ -38,7 +39,15 @@ const buildPlaceholder = (children) => {
     if (element.type === Image) component = PlaceholderMedia;
     if (element.type === Container) component = View;
 
-    style = element.type === Container ? style : { width: "80%", ...style };
+    const { containerStyle } = getSeparatedStyle(style);
+
+    style =
+      element.type === Container ? style : { width: "80%", ...containerStyle };
+
+    if (element.type === Image && element.props.placeholder === "circle") {
+      style = { ...style, borderRadius: 1000 };
+    }
+
     return React.createElement(component, { style }, child);
   });
 };

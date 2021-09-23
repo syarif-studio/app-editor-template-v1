@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import {
-  Layout,
   RadioGroup,
   Radio,
   Button,
@@ -54,7 +53,7 @@ export const ShippingTab = ({
   }, [shippingMethods, shipping, setShipping, index]);
 
   return (
-    <Layout>
+    <View>
       <Text category="h4">{shippingTitle ?? "Shipping"}</Text>
       <RadioGroup
         selectedIndex={index}
@@ -90,6 +89,6 @@ export const ShippingTab = ({
           {placeOrderTitle ?? "Place Order"}
         </Button>
       )}
-    </Layout>
+    </View>
   );
 };

@@ -1,5 +1,6 @@
 import React from "react";
-import { Input, Layout, Text } from "@ui-kitten/components";
+import { View } from "react-native";
+import { Input, Text } from "@ui-kitten/components";
 import { useRecoilState } from "recoil";
 import BillingCountry from "./BillingCountry";
 import { BillingState } from "./BillingState";
@@ -19,7 +20,7 @@ export const BillingTab = ({ fields, billingTitle }) => {
   };
 
   return (
-    <Layout style={{ marginBottom: 16 }}>
+    <View style={{ marginBottom: 16 }}>
       <Text category="h4">{billingTitle ?? "Billing Information"}</Text>
       {Object.keys(fields)
         .filter((key) => fields[key]?.enable)
@@ -43,6 +44,6 @@ export const BillingTab = ({ fields, billingTitle }) => {
           return <Field key={key} label={field.label} />;
         })}
       {!fields.country.enable && <NoBillingCountry />}
-    </Layout>
+    </View>
   );
 };

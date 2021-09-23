@@ -1,5 +1,6 @@
 export * from "./Container";
 export * from "./Image";
+export * from "./Icon";
 export * from "./Text";
 export * from "./GridPost";
 export * from "./SinglePost";

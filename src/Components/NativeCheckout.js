@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout } from "@ui-kitten/components";
+import { View } from "react-native";
 import { BillingTab } from "./NativeCheckout/BillingTab";
 import { ShippingTab } from "./NativeCheckout/ShippingTab";
 
@@ -10,12 +10,12 @@ export const NativeCheckout = ({
   placeOrderTitle,
 }) => {
   return (
-    <Layout style={style}>
+    <View style={style}>
       <BillingTab fields={fields} />
       <ShippingTab
         checkoutUrl={checkoutUrl}
         placeOrderTitle={placeOrderTitle}
       />
-    </Layout>
+    </View>
   );
 };

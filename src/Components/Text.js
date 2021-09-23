@@ -67,7 +67,9 @@ const TextView = ({ title, style, ...props }) => {
       />
     )
   ) : (
-    <TextUi style={style}>{title}</TextUi>
+    <TextUi style={style} {...props}>
+      {title}
+    </TextUi>
   );
 };
 

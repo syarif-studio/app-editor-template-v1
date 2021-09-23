@@ -1,6 +1,7 @@
 import React from "react";
 import { Button as ButtonUi } from "@ui-kitten/components";
 import { Icon } from "react-native-elements";
+import { Text } from "react-native";
 import { useAction, useCustomProps } from "../Hook";
 
 export const Button = ({ onPressAction, title, navigateTo, ...props }) => {
@@ -53,7 +54,7 @@ export const Button = ({ onPressAction, title, navigateTo, ...props }) => {
           }
         : null)}
     >
-      {title}
+      <Text style={fontStyle}>{title}</Text>
     </ButtonUi>
   );
 };
